@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="MainListViewItemsBase">
+        <item>1番</item>
+        <item>2番</item>
+        <item>3番</item>
+        <item>4番</item>
+        <item>5番</item>
+    </string-array>
+    <string-array name="MainListViewItemAdditions">
+        <item>6番</item>
+        <item>7番</item>
+        <item>8番</item>
+        <item>9番</item>
+        <item>10番</item>
+    </string-array>
+</resources>

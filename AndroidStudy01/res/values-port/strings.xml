@@ -1,0 +1,4 @@
+<resources>
+    <string name="main_launch_dialog">My Dialog Button</string>
+    <string name="main_dialog_message">This is a dialog message.</string>
+</resources>

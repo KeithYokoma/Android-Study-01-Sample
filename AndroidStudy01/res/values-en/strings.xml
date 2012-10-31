@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidStudy01</string>
+    <string name="activity_main_listview_empty">No content.</string>
+    <string name="activity_main_menu_add">Add content</string>
+</resources>

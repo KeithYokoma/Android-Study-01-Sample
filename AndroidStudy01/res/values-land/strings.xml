@@ -1,0 +1,4 @@
+<resources>
+    <string name="main_launch_dialog">Click here!</string>
+    <string name="main_dialog_message">Great!</string>
+</resources>
