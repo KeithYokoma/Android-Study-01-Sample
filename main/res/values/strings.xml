@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">AndroidStudy01</string>
     <string name="activity_main_listview_empty">何もありません</string>
-    <string name="activity_main_menu_add">要素を追加</string>
+    <string name="activity_main_menu_add">日記を追加</string>
 </resources>

@@ -15,7 +15,7 @@
         android:layout_weight="1"/>
     <!-- This relative layout will be shown when there's no content on the ListView -->
     <RelativeLayout
-        android:id="@android:id/empty"
+        android:id="@+id/MyListViewEmpty"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1">
