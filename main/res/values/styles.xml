@@ -1,5 +1,10 @@
-<resources>
-
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="AppTheme" parent="android:Theme.Light" />
-
+    <style name="Compose">
+    </style>
+    <style name="Compose.ActivityTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
 </resources>
