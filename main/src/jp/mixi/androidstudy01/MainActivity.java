@@ -13,13 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
+
 /**
  * TODO: implement this class to show data lists.
  *
  * Reference: http://developer.android.com/reference/android/app/Activity.html
  * @author keishin.yokomaku
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements DialogCallbacks {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -187,8 +189,6 @@ public class MainActivity extends FragmentActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.v(TAG, "onPrepareOptionsMenu");
         return super.onPrepareOptionsMenu(menu);
-
-        // TODO implement me!
     }
 
     /**
@@ -216,4 +216,12 @@ public class MainActivity extends FragmentActivity {
 
         // TODO implement me!
     }
+
+    @Override
+    public void onPositiveClick() {
+        // TODO implement me
+    }
+
+    @Override
+    public void onNegativeClick() {}
 }

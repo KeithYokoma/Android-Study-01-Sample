@@ -18,6 +18,10 @@ import android.view.ViewGroup;
  * @author keishin.yokomaku
  */
 public class MainDialogFragment extends DialogFragment {
+    private static final String ARG_NEGATIVE = "negative";
+    private static final String ARG_POSITIVE = "positive";
+    private static final String ARG_MESSAGE = "message";
+    private static final String ARG_TITLE = "title";
     public static final String TAG = MainDialogFragment.class.getSimpleName();
 
     /**
@@ -53,9 +57,15 @@ public class MainDialogFragment extends DialogFragment {
      * @param message the message of this dialog
      * @return {@link MainDialogFragment} instance
      */
-    public static MainDialogFragment newInstance(int title, int message) {
-        // TODO implement me!
-        return null;
+    public static MainDialogFragment newInstance(int title, int message, int positive, int negative) {
+        MainDialogFragment fragment = new MainDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_TITLE, title);
+        args.putInt(ARG_MESSAGE, message);
+        args.putInt(ARG_POSITIVE, positive);
+        args.putInt(ARG_NEGATIVE, negative);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     /**
@@ -120,7 +130,6 @@ public class MainDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v(TAG, "onCreateView");
-        // TODO implement me!
         return null;
     }
 
@@ -259,5 +268,10 @@ public class MainDialogFragment extends DialogFragment {
     public void onDetach() {
         Log.v(TAG, "onDetach");
         super.onDetach();
+    }
+
+    public static interface DialogCallbacks {
+        public void onPositiveClick();
+        public void onNegativeClick();
     }
 }
