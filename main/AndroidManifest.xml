@@ -1,25 +1,26 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.mixi.androidstudy01"
     android:versionCode="1"
     android:versionName="1.0">
-
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
-
-    <application android:label="@string/app_name"
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="15" />
+    <application
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
         <!-- MainActivity Declaration -->
         <!-- android:label will be used on the application launcher to indicate application name. -->
-		<activity
-		    android:name=".MainActivity"
-		    android:label="@string/app_name">
-		    <intent-filter>
-		        <!-- This is a primary activity of this application, -->
-		        <!-- so the application launcher should call this activity on start the application. -->
-		        <action android:name="android.intent.action.MAIN" />
-        		<category android:name="android.intent.category.LAUNCHER" />
-		    </intent-filter>
-		</activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <!-- This is a primary activity of this application, -->
+                <!-- so the application launcher should call this activity on start the application. -->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
-
 </manifest>
