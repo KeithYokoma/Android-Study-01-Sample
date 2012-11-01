@@ -1,7 +1,11 @@
 package jp.mixi.androidstudy01.diary.entity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import jp.mixi.androidstudy01.entity.ComposeEntity;
 
 import java.io.FileDescriptor;
 
@@ -13,7 +17,7 @@ import java.io.FileDescriptor;
  *
  * @author keishin.yokomaku
  */
-public class DiaryEntity implements Parcelable {
+public class DiaryEntity implements Parcelable, ComposeEntity {
     /**
      * {@link Parcelable} classes must have a public static {@link Parcelable.Creator} constant.
      * This constant is used to generate an instance of this {@link Parcelable} object.
