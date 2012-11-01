@@ -17,7 +17,7 @@ import java.io.FileDescriptor;
  *
  * @author keishin.yokomaku
  */
-public class DiaryEntity implements Parcelable, ComposeEntity {
+public class DiaryEntity implements ComposeEntity {
     /**
      * {@link Parcelable} classes must have a public static {@link Parcelable.Creator} constant.
      * This constant is used to generate an instance of this {@link Parcelable} object.

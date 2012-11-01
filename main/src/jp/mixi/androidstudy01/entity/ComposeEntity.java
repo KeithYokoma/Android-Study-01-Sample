@@ -1,4 +1,6 @@
 package jp.mixi.androidstudy01.entity;
 
-public interface ComposeEntity {
+import android.os.Parcelable;
+
+public interface ComposeEntity extends Parcelable {
 }
