@@ -3,6 +3,7 @@ package jp.mixi.androidstudy01;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,11 @@ import android.view.View;
 import android.widget.ListView;
 
 import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
+import jp.mixi.androidstudy01.diary.DiaryComposeActivity;
+import jp.mixi.androidstudy01.diary.entity.DiaryEntity;
+import jp.mixi.androidstudy01.entity.ComposeEntity;
+
+import java.util.ArrayList;
 
 /**
  * TODO: リストにデータを表示するよう実装してください。
@@ -25,7 +31,10 @@ import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
  */
 public class MainActivity extends FragmentActivity implements DialogCallbacks {
     public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SAVE_STATE_ENTITIES = "entities";
+    private static final int REQUEST_DIARY_COMPOSE = 0;
     private EntityAdapter mAdapter;
+    private ListView mListView;
 
     /**
      * onCreate(Bundle)からActivityのライフサイクルが始まります。
@@ -48,13 +57,9 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         setContentView(R.layout.main_activity);
 
         mAdapter = new EntityAdapter(this);
-        // TODO ListViewオブジェクトをレイアウトから取得してください。
-
-        // TODO このままだと、ListViewが空の時にだけ出すべきViewが表示されたままになるので、
-        // TODO 空の時だけ表示するようにしてください。
-
-        // TODO このままだと、ListViewにList形式のデータを表示できないので、
-        // TODO Adapterを渡してListViewがList形式のデータをもとにListViewに行のViewを追加できるようにしてください。
+        mListView = (ListView) findViewById(R.id.MyListView);
+        mListView.setEmptyView(findViewById(R.id.MyListViewEmpty));
+        mListView.setAdapter(mAdapter);
     }
 
     /**
@@ -86,7 +91,7 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onStart");
         super.onStart();
 
-        // TODO ListViewに、行を長押しした時のメニュー(ContextMenu)を表示するハンドラを登録してください
+        registerForContextMenu(mListView);
     }
 
     /**
@@ -117,7 +122,23 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onRestoreInstanceState");
         super.onRestoreInstanceState(savedInstanceState);
 
-        // TODO Activityが破棄される前にAdapterが持っていたリストのデータを復帰してください。
+        ArrayList<ComposeEntity> entities = savedInstanceState.getParcelableArrayList(SAVE_STATE_ENTITIES);
+        for (ComposeEntity entity : entities) {
+            mAdapter.add(entity);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v(TAG, "onActivityResult");
+        switch (resultCode) {
+        case RESULT_OK:
+            if (requestCode == REQUEST_DIARY_COMPOSE) getComposedDiary(data);
+            break;
+        default:
+            super.onActivityResult(requestCode, resultCode, data);
+            break;
+        }
     }
 
     /**
@@ -138,7 +159,11 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        // TODO Activityを破棄する前に、Adapterが持っているリストのデータを一時保存してください。
+        ArrayList<ComposeEntity> entities = new ArrayList<ComposeEntity>();
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            entities.add(mAdapter.getItem(i));
+        }
+        outState.putParcelableArrayList(SAVE_STATE_ENTITIES, entities);
     }
 
     /**
@@ -173,7 +198,7 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onStop");
         super.onStop();
 
-        // TODO このままではActivityがリークします。ListViewの長押しメニューの登録を解除してください。
+        unregisterForContextMenu(mListView);
     }
 
     /**
@@ -258,10 +283,9 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.v(TAG, "onCreateOptionsMenu");
-        return super.onCreateOptionsMenu(menu);
 
-        // TODO menuのxmlからメニューキーで表示するメニューを読み込んで、MenuInflater#inflate()します。
-        // TODO 基本のやり方はコンテキストメニューと同じです。
+        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -274,10 +298,26 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.v(TAG, "onOptionsItemSelected");
-        return super.onOptionsItemSelected(item);
 
-        // TODO コンテキストメニューと同じく、どのメニューが押されたかを見て処理を振り分けます。
-        // TODO コンテキストメニューと同じく、実行したい処理が実行できたら、return trueします。
+        switch (item.getItemId()) {
+        case R.id.MainMenuAddMore:
+            launchDiaryComposeActivity();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void launchDiaryComposeActivity() {
+        Intent intent = new Intent(this, DiaryComposeActivity.class);
+        startActivityForResult(intent, REQUEST_DIARY_COMPOSE);
+    }
+
+    private void getComposedDiary(Intent intent) {
+        Log.v(TAG, "getComposedDiary");
+        DiaryEntity entity = intent.<DiaryEntity>getParcelableExtra(
+                DiaryComposeActivity.RESULT_EXTRA_DIARY_ENTITY);
+        mAdapter.insert(entity, 0);
     }
 
     @Override

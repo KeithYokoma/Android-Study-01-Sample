@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".diary.DiaryComposeActivity" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/ComposeDiaryActivityTitle"
+            style="@style/Compose.ActivityTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/activity_compose_diary" />
+
+        <View
+            android:id="@+id/ComposeDiarySeparatorHead"
+            style="@style/Compose.Separator"
+            android:layout_below="@+id/ComposeDiaryActivityTitle" />
+
+        <TextView
+            android:id="@+id/ComposeDiaryTitleLabel"
+            style="@style/Compose.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ComposeDiarySeparatorHead"
+            android:text="@string/activity_compose_diary_title" />
+
+        <TextView
+            android:id="@+id/ComposeDiaryTitleLength"
+            style="@style/Compose.LengthIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ComposeDiaryTitleLabel"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ComposeDiarySeparatorHead" />
+
+        <EditText
+            android:id="@+id/ComposeDiaryTitleInput"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ComposeDiaryTitleLabel"
+            android:layout_margin="5dp"
+            android:hint="@string/activity_compose_diary_title"
+            android:lines="1"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/ComposeDiaryBodyLabel"
+            style="@style/Compose.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ComposeDiaryTitleInput"
+            android:text="@string/activity_compose_diary_body" />
+
+        <TextView
+            android:id="@+id/ComposeDiaryBodyLength"
+            style="@style/Compose.LengthIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ComposeDiaryBodyLabel"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ComposeDiaryTitleInput" />
+
+        <EditText
+            android:id="@+id/ComposeDiaryBodyInput"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ComposeDiaryBodyLabel"
+            android:layout_margin="5dp"
+            android:gravity="top|left"
+            android:hint="@string/activity_compose_diary_body"
+            android:minLines="8"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/ComposeDiarySeparatorFoot"
+            style="@style/Compose.Separator"
+            android:layout_below="@+id/ComposeDiaryBodyInput" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ComposeDiarySeparatorFoot"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dip"
+                android:layout_weight="1"
+                android:onClick="onSaveClick"
+                android:text="@string/activity_compose_diary_save" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dip"
+                android:layout_weight="1"
+                android:onClick="onCancelClick"
+                android:text="@string/activity_compose_diary_cancel" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

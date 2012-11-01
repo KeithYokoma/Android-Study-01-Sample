@@ -7,4 +7,19 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
+    <style name="Compose.Label">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="Compose.LengthIndicator">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+    <style name="Compose.Separator">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
 </resources>
