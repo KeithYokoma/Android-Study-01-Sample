@@ -13,6 +13,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
@@ -233,9 +235,8 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         Log.v(TAG, "onCreateContextMenu");
+        getMenuInflater().inflate(R.menu.activity_main_context_menu, menu);
         super.onCreateContextMenu(menu, v, menuInfo);
-
-        // TODO menuのxmlからコンテキストメニューを読み込んで、MenuInflater#inflate()します。
     }
 
     /**
@@ -248,13 +249,15 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.v(TAG, "onContextItemSelected");
-        return super.onContextItemSelected(item);
 
-        // TODO 削除メニューかどうかを判定し、削除メニューだったら確認のダイアログを表示します。
-        // TODO Show confirmation dialog when "delete" has been selected.
-
-        // TODO 実行したい処理が終わったら、return trueしてください。
-        // TODO Return true if successfully dispatched method.
+        int position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
+        switch (item.getItemId()) {
+        case R.id.MainContextMenuDelete:
+            showConfirmDialog(position);
+            return true;
+        default:
+            return super.onContextItemSelected(item);
+        }
     }
 
     /**
@@ -309,12 +312,18 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     private void launchDiaryComposeActivity() {
+        launchDiaryComposeActivity(null);
+    }
+
+    private void launchDiaryComposeActivity(DiaryEntity entity) {
         Intent intent = new Intent(this, DiaryComposeActivity.class);
+        if (entity != null) {
+            intent.putExtra(DiaryComposeActivity.REQUEST_EXTRA_DIARY_ENTITY, entity);
+        }
         startActivityForResult(intent, REQUEST_DIARY_COMPOSE);
     }
 
     private void getComposedDiary(Intent intent) {
-        Log.v(TAG, "getComposedDiary");
         DiaryEntity entity = intent.<DiaryEntity>getParcelableExtra(
                 DiaryComposeActivity.RESULT_EXTRA_DIARY_ENTITY);
         mAdapter.insert(entity, 0);
@@ -322,10 +331,20 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
 
     @Override
     public void onPositiveClick(int position) {
-        // TODO 確認ダイアログのコールバックメソッドです。はい、を選択した時の処理をここに書きます。
-        // TODO 指定されたpositionにあるオブジェクトを、AdapterがもっているListから削除してください。
+        mAdapter.remove(
+                mAdapter.getItem(position));
     }
 
     @Override
     public void onNegativeClick() {}
+
+    private void showConfirmDialog(int position) {
+        MainDialogFragment dialog = MainDialogFragment.newInstance(
+                R.string.activity_main_context_menu_delete_title,
+                R.string.activity_main_context_menu_delete_message,
+                R.string.activity_main_context_menu_delete_positive,
+                R.string.activity_main_context_menu_delete_negative,
+                position);
+        dialog.show(getSupportFragmentManager(), TAG);
+    }
 }

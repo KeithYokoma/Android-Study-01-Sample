@@ -33,8 +33,16 @@ public class DiaryComposeActivity extends FragmentActivity implements TextWatche
         mBody = (EditText) findViewById(R.id.ComposeDiaryBodyInput);
         mTitleLength = (TextView) findViewById(R.id.ComposeDiaryTitleLength);
         mBodyLength = (TextView) findViewById(R.id.ComposeDiaryBodyLength);
-        setTitleLengthIndicator(0);
-        setBodyLengthIndicator(0);
+        if (getIntent().hasExtra(REQUEST_EXTRA_DIARY_ENTITY)) {
+            DiaryEntity entity = getIntent().<DiaryEntity>getParcelableExtra(REQUEST_EXTRA_DIARY_ENTITY);
+            mTitle.setText(entity.getTitle());
+            mBody.setText(entity.getBody());
+            setTitleLengthIndicator(entity.getTitle().length());
+            setBodyLengthIndicator(entity.getBody().length());
+        } else {
+            setTitleLengthIndicator(0);
+            setBodyLengthIndicator(0);
+        }
     }
 
     @Override

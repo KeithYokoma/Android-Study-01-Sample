@@ -81,11 +81,14 @@ public class MainDialogFragment extends DialogFragment {
      * @param message the message of this dialog
      * @return {@link MainDialogFragment} instance
      */
-    public static MainDialogFragment newInstance(int title, int message, int positive, int negative) {
+    public static MainDialogFragment newInstance(int title, int message, int positive, int negative, int position) {
         MainDialogFragment fragment = new MainDialogFragment();
         Bundle args = new Bundle();
-        // TODO ここで、Fragmentに渡すパラメータをBundleオブジェクトに入れてください。
-        // TODO Put arguments into the bundle object that should be passed to the fragment here.
+        args.putInt(ARG_TITLE, title);
+        args.putInt(ARG_MESSAGE, message);
+        args.putInt(ARG_POSITIVE, positive);
+        args.putInt(ARG_NEGATIVE, negative);
+        args.putInt(ARG_POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -196,27 +199,28 @@ public class MainDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.v(TAG, "onCreateDialog");
         Bundle args = getArguments();
-        // TODO AlertDialogに渡すパラメータをBundleオブジェクトから取り出してください。
-        // TODO obtain arguments for the AlertDialog from Bundle object.
+        int title = args.getInt(ARG_TITLE);
+        int message = args.getInt(ARG_MESSAGE);
+        int positive = args.getInt(ARG_POSITIVE);
+        int negative = args.getInt(ARG_NEGATIVE);
+        final int position = args.getInt(ARG_POSITION);
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(0)
-                .setMessage(0)
-                .setPositiveButton(0, new OnClickListener() {
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positive, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DialogCallbacks host;
                         try {
-                            // TODO コールバックするアクティビティの参照を受け取ってください。
-                            // TODO Get callback activity.
+                            host = (DialogCallbacks) getActivity();
                         } catch (ClassCastException e) {
                             throw new IllegalStateException("Activity should implement dialog callback interface.");
                         }
-                        // TODO ポジティブボタンを押した時のコールバックメソッドを呼び出してください。
-                        // TODO call the method that tells positive button has been pressed.
+                        host.onPositiveClick(position);
                         dismiss();
                     }
                 })
-                .setNegativeButton(0, new OnClickListener() {
+                .setNegativeButton(negative, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dismiss();
