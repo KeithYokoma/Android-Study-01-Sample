@@ -90,6 +90,7 @@
             android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/ComposeDiarySave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dip"
@@ -98,6 +99,7 @@
                 android:text="@string/activity_compose_diary_save" />
 
             <Button
+                android:id="@+id/ComposeDiaryCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dip"
