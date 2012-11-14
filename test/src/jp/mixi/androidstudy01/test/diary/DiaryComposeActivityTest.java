@@ -84,7 +84,7 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
         assertEquals("4 / 10000", length.getText().toString());
     }
 
-    public void testPassIntent() {
+    /*public void testPassIntent() {
         Intent intent = new Intent();
         DiaryEntity entity = DiaryEntity.getBuilder()
                 .setTitle("test")
@@ -110,7 +110,7 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
         assertEquals("testtest", body.getText().toString());
         assertEquals("4 / 20", titleLength.getText().toString());
         assertEquals("8 / 10000", bodyLength.getText().toString());
-    }
+    }*/
 
     public void testSaveClick() throws Exception {
         final Activity activity = getActivity();
