@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 相対位置でViewの配置を決めるレイアウトです。 -->
+<!-- このレイアウトに含まれるViewには特別な属性をつけることが出来るようになります。 -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+    <!-- layout_alignParentTopで、親(RelativeLayout)の上端とこのViewの上端をあわせます。 -->
+    <!-- layout_alignParentLeftで、親の左端とこのViewの左端をあわせます。 -->
+    <TextView
+        android:id="@+id/MainListPostDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:padding="3dip"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:lines="1"/>
+    <!-- @+id/MainListPostDateのViewの右端に、このViewの左端をあわせます。 -->
+    <!-- @+id/MainListPostDateのViewとベースラインを揃えます -->
+    <TextView
+        android:id="@+id/MainListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/MainListPostDate"
+        android:layout_alignBaseline="@+id/MainListPostDate"
+        android:padding="3dip"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:lines="1"/>
+    <!-- @+id/MainListPostDateの下端とこのViewの上端をあわせます。 -->
+    <TextView
+        android:id="@+id/MainListBody"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MainListPostDate"
+        android:padding="3dip"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"/>
+</RelativeLayout>

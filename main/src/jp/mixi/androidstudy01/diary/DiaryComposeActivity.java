@@ -34,18 +34,19 @@ public class DiaryComposeActivity extends FragmentActivity implements TextWatche
         mTitleLength = (TextView) findViewById(R.id.ComposeDiaryTitleLength);
         mBodyLength = (TextView) findViewById(R.id.ComposeDiaryBodyLength);
 
-        // TODO implement me!
+        setTitleLengthIndicator(0);
+        setBodyLengthIndicator(0);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // TODO implement me!
+        // TODO add listener resources for the edit text views
     }
 
     @Override
     public void onStop() {
-        // TODO implement me!
+        // TODO release listener resources for the edit text views
         super.onStop();
     }
 
@@ -57,12 +58,12 @@ public class DiaryComposeActivity extends FragmentActivity implements TextWatche
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // TODO implement me!
+        // TODO update text length indicator text views' text
     }
 
     public void onSaveClick(View v) {
         Intent intent = new Intent();
-        // TODO implement me!
+        // TODO build composed result as DiaryEntity and put it into the intent.
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -70,5 +71,15 @@ public class DiaryComposeActivity extends FragmentActivity implements TextWatche
     public void onCancelClick(View v) {
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    private void setTitleLengthIndicator(int length) {
+        mTitleLength.setText(getString(
+                R.string.activity_compose_length, length, TITLE_MAX_LENGTH));
+    }
+
+    private void setBodyLengthIndicator(int length) {
+        mBodyLength.setText(getString(
+                R.string.activity_compose_length, length, BODY_MAX_LENGTH));
     }
 }

@@ -12,10 +12,12 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
 
 /**
+ * TODO: リストにデータを表示するよう実装してください。
  * TODO: implement this class to show data lists.
  *
  * Reference: http://developer.android.com/reference/android/app/Activity.html
@@ -23,8 +25,14 @@ import jp.mixi.androidstudy01.MainDialogFragment.DialogCallbacks;
  */
 public class MainActivity extends FragmentActivity implements DialogCallbacks {
     public static final String TAG = MainActivity.class.getSimpleName();
+    private EntityAdapter mAdapter;
 
     /**
+     * onCreate(Bundle)からActivityのライフサイクルが始まります。
+     * onCreate(Bundle)では、Viewオブジェクトや、リストにバインドされるデータや、非同期処理のためのスレッドの開始などの
+     * Activityに必要なコンポーネントの初期化を行います。
+     * 引数のBundleオブジェクトを用いて、以前に保存したActivityの状態を復帰するのもonCreate(Bundle)で行います。
+     *
      * Starting the entire lifetime of this {@link Activity} with this method.
      * Usually, this method should initialize of components such as views,
      * data that will be bound with list, and threads, etc.
@@ -39,10 +47,20 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // TODO implement me!
+        mAdapter = new EntityAdapter(this);
+        // TODO ListViewオブジェクトをレイアウトから取得してください。
+
+        // TODO このままだと、ListViewが空の時にだけ出すべきViewが表示されたままになるので、
+        // TODO 空の時だけ表示するようにしてください。
+
+        // TODO このままだと、ListViewにList形式のデータを表示できないので、
+        // TODO Adapterを渡してListViewがList形式のデータをもとにListViewに行のViewを追加できるようにしてください。
     }
 
     /**
+     * ActivityがonStop()を呼ばれた後に、Activityを復帰しようとした場合に呼ばれます。
+     * このメソッドの後は必ずonStart()が呼ばれます。
+     *
      * Called after your activity has been stopped, prior to it being started again.
      * Always followed by onStart().
      */
@@ -53,6 +71,10 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     /**
+     * onStart()から、Activityがユーザに見えるようになります。
+     * ただし、まだActivityがフォアグラウンドに来ていたり、ユーザの操作を受け付けることができたりするとは限りません。
+     * ユーザにActivityを見せるにあたって必要なリソースを管理します。
+     *
      * Starting the visible lifetime of this {@link Activity} with this method.
      * The user can see the activity on-screen,
      * though it may not be in the foreground and interacting with the user.
@@ -64,10 +86,13 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onStart");
         super.onStart();
 
-        // TODO implement me!
+        // TODO ListViewに、行を長押しした時のメニュー(ContextMenu)を表示するハンドラを登録してください
     }
 
     /**
+     * onResume()から、Activityがフォアグラウンドに来て、ユーザの操作ができるようになります。
+     * Activityは頻繁にResume状態からPaused状態へと遷移しますので、ここに重い処理は書かないようにします。
+     *
      * Starting the foreground lifetime of this {@link Activity} with this method.
      * The {@link Activity} comes in front of all other activities and interacting with the user.
      * An activity can frequently go between the resumed and paused states, so
@@ -80,6 +105,8 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     /**
+     * Activityが破棄される前に{@link Bundle}オブジェクトに保存した状態をここで復帰します。
+     *
      * You should restore the activity's previously frozen state from {@link Bundle} object,
      * if there was one.
      *
@@ -90,11 +117,15 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onRestoreInstanceState");
         super.onRestoreInstanceState(savedInstanceState);
 
-        // TODO implement me!
+        // TODO Activityが破棄される前にAdapterが持っていたリストのデータを復帰してください。
     }
 
     /**
-     * To save temporary states of this fragment,
+     * Activityを破棄する前に、一時保存しておくべき情報を{@link Bundle}オブジェクトに保存します。
+     * 復帰するときは、{@link Activity#onRestoreInstanceState(Bundle)}か、あるいは{@link Activity#onCreate(Bundle)}
+     * のBundleからも復帰することができます。
+     *
+     * To save temporary states of this activity,
      * put them into a {@link Bundle} object.
      * You can restore this state at {@link Activity#onCreate(Bundle)}, or
      * {@link Activity#onRestoreInstanceState(Bundle)}.
@@ -107,10 +138,15 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        // TODO implement me!
+        // TODO Activityを破棄する前に、Adapterが持っているリストのデータを一時保存してください。
     }
 
     /**
+     * Activityがフォアグラウンドから去るタイミングがonPause()です。
+     * 未保存で永続化すべきデータを、{@link SharedPreferences}や{@link ContentProvider}へ保存するなどをします。
+     * このメソッドで行われる処理の実装は高速である必要があります。なぜなら、次にフォアグラウンドに来るActivityが、
+     * このメソッドから返ってくるまで待ち状態になってしまうからです。
+     *
      * Finishing the foreground lifetime of this {@link Activity}.
      * Commit unsaved state to persistent data, like put draft data into a {@link SharedPreferences} or
      * {@link ContentProvider}, or something may consuming CPU.
@@ -124,6 +160,9 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     /**
+     * ユーザに見えなくなるタイミングがonStop()です。
+     * ユーザに見えなくなるので、onStart()で準備した各種リソースをここで開放します。
+     *
      * Finishing the visible lifetime of this {@link Activity}.
      * This time the {@link Activity} is no longer visible to the user.
      * You should release resources from this {@link Activity}, such like
@@ -134,10 +173,17 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onStop");
         super.onStop();
 
-        // TODO implement me!
+        // TODO このままではActivityがリークします。ListViewの長押しメニューの登録を解除してください。
     }
 
     /**
+     * onDestroy()でActivityの寿命が尽きます。
+     * onCreate()で開始したスレッドを止めるなど、残りのリソースの開放を行います。
+     *
+     * 注意すべき点として、onDestroy()は必ず呼ばれる保証があるメソッドではないことに気をつけなければなりません。
+     * 他のアプリケーションがより多くのメモリを必要とした時に、このアプリケーションのプロセスがkillされるときには、
+     * onDestroy()は呼ばれません。
+     *
      * Finishing the entire lifetime of this {@link Activity}.
      * Make sure all remaining resources is released, or stop running threads, etc.
      *
@@ -151,6 +197,8 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     /**
+     * コンテキストメニューを作ります。
+     *
      * Creates context menu(long click menu).
      *
      * @param menu
@@ -162,10 +210,12 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onCreateContextMenu");
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        // TODO implement me!
+        // TODO menuのxmlからコンテキストメニューを読み込んで、MenuInflater#inflate()します。
     }
 
     /**
+     * コンテキストメニューで選択されたメニューに対応した処理を実行します。
+     *
      * Dispatches functionality bound with each context menu item.
      *
      * @param item selected context menu object
@@ -175,10 +225,17 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onContextItemSelected");
         return super.onContextItemSelected(item);
 
-        // TODO implement me!
+        // TODO 削除メニューかどうかを判定し、削除メニューだったら確認のダイアログを表示します。
+        // TODO Show confirmation dialog when "delete" has been selected.
+
+        // TODO 実行したい処理が終わったら、return trueしてください。
+        // TODO Return true if successfully dispatched method.
     }
 
     /**
+     * メニューキーで表示するメニューを表示する直前に呼ばれ、
+     * メニューを有効化／無効化したりするような処理をここで行います。
+     *
      * Prepares menu items to show up options menu,
      * such like switching enable/disable menu items.
      * Options menu will be displayed when the "menu" key has been tapped.
@@ -192,6 +249,8 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
     }
 
     /**
+     * メニューキーで表示するメニューを表示します。
+     *
      * Displays options menu.
      *
      * @param menu
@@ -201,10 +260,13 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onCreateOptionsMenu");
         return super.onCreateOptionsMenu(menu);
 
-        // TODO implement me!
+        // TODO menuのxmlからメニューキーで表示するメニューを読み込んで、MenuInflater#inflate()します。
+        // TODO 基本のやり方はコンテキストメニューと同じです。
     }
 
     /**
+     * メニューキーで表示するメニューに対応する処理を実行します
+     *
      * Dispatches functionality bound with each options menu item.
      *
      * @param item
@@ -214,12 +276,14 @@ public class MainActivity extends FragmentActivity implements DialogCallbacks {
         Log.v(TAG, "onOptionsItemSelected");
         return super.onOptionsItemSelected(item);
 
-        // TODO implement me!
+        // TODO コンテキストメニューと同じく、どのメニューが押されたかを見て処理を振り分けます。
+        // TODO コンテキストメニューと同じく、実行したい処理が実行できたら、return trueします。
     }
 
     @Override
-    public void onPositiveClick() {
-        // TODO implement me
+    public void onPositiveClick(int position) {
+        // TODO 確認ダイアログのコールバックメソッドです。はい、を選択した時の処理をここに書きます。
+        // TODO 指定されたpositionにあるオブジェクトを、AdapterがもっているListから削除してください。
     }
 
     @Override

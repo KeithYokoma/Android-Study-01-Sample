@@ -2,5 +2,17 @@
 <resources>
     <string name="app_name">AndroidStudy01</string>
     <string name="activity_main_listview_empty">No content.</string>
+    <string name="activity_main_listview_date_format">MM / dd - HH:mm</string>
+    <string name="activity_main_context_menu_delete">Delete</string>
+    <string name="activity_main_context_menu_delete_title">Delete Diary</string>
+    <string name="activity_main_context_menu_delete_message">Would you like to delete diary?</string>
+    <string name="activity_main_context_menu_delete_positive">Yes</string> 
+    <string name="activity_main_context_menu_delete_negative">No</string>
     <string name="activity_main_menu_add">Add diary</string>
+    <string name="activity_compose_length">%1$d / %2$d</string>
+    <string name="activity_compose_diary">Add diary</string>
+    <string name="activity_compose_diary_title">Diary title</string>
+    <string name="activity_compose_diary_body">Diary body</string>
+    <string name="activity_compose_diary_save">Save</string>
+    <string name="activity_compose_diary_cancel">Cancel</string>
 </resources>

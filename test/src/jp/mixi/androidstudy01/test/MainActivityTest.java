@@ -13,6 +13,8 @@ import jp.mixi.androidstudy01.R;
 import jp.mixi.androidstudy01.diary.DiaryComposeActivity;
 
 /**
+ * MainActivityの機能テストです。
+ *
  * A functionality test for main activity.
  * @author keishin.yokomaku
  */

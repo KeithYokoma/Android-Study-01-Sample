@@ -14,6 +14,8 @@ import jp.mixi.androidstudy01.diary.entity.DiaryEntity;
 import java.lang.reflect.Field;
 
 /**
+ * DiaryComposeActivityの機能テストです。
+ *
  * A functionality test for {@link DiaryComposeActivity}.
  * @author keishin.yokomaku
  */
@@ -23,6 +25,8 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
     }
 
     /**
+     * AndroidのテストフレームワークはJUnit3がベースになっているので、
+     * テストケースとなるメソッド名は必ず"test"ではじめなければなりません。
      * Test method name should start with "test".
      * This is because android test framework is based on JUnit3.
      */

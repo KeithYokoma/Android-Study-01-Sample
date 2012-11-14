@@ -10,6 +10,11 @@ import jp.mixi.androidstudy01.entity.ComposeEntity;
 import java.io.FileDescriptor;
 
 /**
+ * 日記のコンテンツを表現するEntityクラスです。
+ *
+ * Intentのextraオブジェクトや、Bundleにこのクラスのオブジェクトを入れたり、
+ * IPCでやり取りされるメッセージにこのクラスのオブジェクトを含めるためには、Parcelableインタフェースを実装する必要があります。
+ *
  * An entity class of diary content.
  *
  * For the convenience to send message through {@link Intent} or {@link Bundle}, or do some IPC request,
@@ -19,6 +24,9 @@ import java.io.FileDescriptor;
  */
 public class DiaryEntity implements ComposeEntity {
     /**
+     * Parcleableインタフェースを実装したクラスでは、Creator<T>オブジェクトの定数として、CREATORを定義する必要があります。
+     * この定数は、Parcelableオブジェクトをインスタンス化するためにフレームワークが使用します。
+     *
      * {@link Parcelable} classes must have a public static {@link Parcelable.Creator} constant.
      * This constant is used to generate an instance of this {@link Parcelable} object.
      */
@@ -32,11 +40,18 @@ public class DiaryEntity implements ComposeEntity {
             return new DiaryEntity(source);
         }
     };
-    private String mTitle; // Add "m" prefix to a private member according to android code style guideline.
+    /**
+     * Androidのコーディングガイドラインでは、private変数には接頭辞として"m"をつけます。
+     *
+     * Add "m" prefix to a private member according to android code style guideline.
+     */
+    private String mTitle;
     private String mBody;
     private long mPostDate;
 
     /**
+     * Parcelオブジェクトからメンバ変数を初期化します。
+     *
      * Read the member back in from a {@link Parcel}.
      * @param in {@link Parcel} object contains saved member data
      */
@@ -53,6 +68,9 @@ public class DiaryEntity implements ComposeEntity {
     }
 
     /**
+     * 大抵の場合、このメソッドは0を返して問題ありません。
+     * {@link FileDescriptor}を使用する場合には、{@link Parcelable#CONTENTS_FILE_DESCRIPTOR}を返す必要があります。
+     *
      * Usually, this method should always return 0.
      * When you put a {@link FileDescriptor}, this method should return
      * {@link Parcelable#CONTENTS_FILE_DESCRIPTOR}.
@@ -63,6 +81,9 @@ public class DiaryEntity implements ComposeEntity {
     }
 
     /**
+     * このクラスのメンバ変数をParcelオブジェクトに書き出します。
+     * 書きだす順番と、読みだす順番は同じである必要があります。
+     *
      * Write all members of this class to a {@link Parcel} object.
      * It doesn't matter which order you write the objects,
      * so long as you read them back in in the same order.

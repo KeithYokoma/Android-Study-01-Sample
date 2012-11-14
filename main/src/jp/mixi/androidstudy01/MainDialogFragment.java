@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 
 /**
  * TODO: Implement this class to show dialog that contains title, message, and yes/no buttons.
+ * TODO: タイトル、メッセージ、はい／いいえボタンのあるダイアログを表示するための実装をしてください。
  *
  * Reference: http://developer.android.com/reference/android/app/Fragment.html
  * @author keishin.yokomaku
  */
 public class MainDialogFragment extends DialogFragment {
+    private static final String ARG_POSITION = "position";
     private static final String ARG_NEGATIVE = "negative";
     private static final String ARG_POSITIVE = "positive";
     private static final String ARG_MESSAGE = "message";
@@ -25,6 +27,25 @@ public class MainDialogFragment extends DialogFragment {
     public static final String TAG = MainDialogFragment.class.getSimpleName();
 
     /**
+     * Fragmentを継承するクラスには、空のpublicなデフォルトコンストラクタを定義する必要があります。
+     *
+     * <blockquote>
+     * すべてのFragmentを継承する子クラスは、必ず空のpublicなコンストラクタを定義する必要があります。
+     * これは、フレームワークがしばしば、Fragmentクラスを再インスタンス化する場合があるためです。特に、
+     * 状態を復帰する目的で、Fragmentをインスタンス化しようとするために、このコンストラクタが必要です。
+     * もし空のっコンストラクタが見つからない場合、状態を復帰しようとして実行時例外が投げられることがあります。
+     * </blockquote>
+     *
+     * フレームワークが、破棄されたFragmentを再インスタンス化する際には、
+     * {@link Fragment#instantiate(Context, String, Bundle)}を利用します。
+     * このメソッドは、フラグメントをインスタンス化するために空のコンストラクタを呼び出しています。
+     * このため、空のコンストラクタに引数を渡すことで、フラグメントに何かしらの値を渡すことはできません。
+     * また、このメソッドの中で実施される再インスタンス化処理のプロセスでは、いかなるsetterメソッドも呼び出されない（呼び出せない）ため
+     * setterメソッド経由でFragmentに値を渡して初期化することもできません。
+     *
+     * もしFragmentに何かしらの値を渡して初期化したい場合は、{@link Fragment#setArguments(Bundle)}を使います。
+     * ここで渡す{@link Bundle}オブジェクトは、再インスタンス化の時にもFragmentに渡されます。
+     *
      * We always need to declare an empty constructor in a class that extends {@link Fragment}.
      *
      * <blockquote>
@@ -60,15 +81,21 @@ public class MainDialogFragment extends DialogFragment {
     public static MainDialogFragment newInstance(int title, int message, int positive, int negative) {
         MainDialogFragment fragment = new MainDialogFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_TITLE, title);
-        args.putInt(ARG_MESSAGE, message);
-        args.putInt(ARG_POSITIVE, positive);
-        args.putInt(ARG_NEGATIVE, negative);
+        // TODO: put arguments into the bundle object that should be passed to the fragment here
         fragment.setArguments(args);
         return fragment;
     }
 
     /**
+     * <blockquote>
+     * onAttach(Activity) はFragmentが、Activityと紐付いた時に呼ばれます。
+     * </blockquote>
+     *
+     * もしこのFragmentがActivityに対してコールバックする必要が有る場合には、
+     * Listenerインタフェースを定義して、それをActivityに実装させます。
+     * コールバックを呼ぶときは、ここで対象のActivityへの参照を保存しておいて、
+     * その参照からコールバックを呼び出します。
+     *
      * <blockquote>
      * onAttach(Activity) called once the fragment is associated with its activity.
      * </blockquote>
@@ -76,6 +103,7 @@ public class MainDialogFragment extends DialogFragment {
      * If this fragment should call back something to the activity,
      * you should declare a listener interface and a activity that attaches this fragment
      * implement it. And store the listener object on this method like this.
+     *
      * {@code}
      * try {
      *     mListener = (ListenerInterface) activity;
@@ -91,6 +119,11 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * <blockquote>
+     * システムは、Fragmentを作るときに、onCreate(Bundle)を呼び出します。
+     * このコールバックメソッドでは、Fragmentに必要なコンポーネントの初期化を行います。
+     * </blockquote>
+     *
      * <blockquote>
      * The system calls this when creating the fragment.
      * Within your implementation, you should initialize essential components of the fragment
@@ -108,9 +141,19 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * Fragmentのレイアウトを作ります。
+     * DialogFragmentの場合、{@link Dialog}オブジェクトを作成するときは、このメソッドは必ずnullを返すようにします。
+     * Dialogオブジェクトを使わず、単純なレイアウトを配置する場合は、このメソッドでそのレイアウトを作成して返すようにします。
+     *
      * Create a layout of this fragment.
      * To create a {@link Dialog} object such as progress indicator, this method should return null.
      * Reference: http://y-anz-m.blogspot.jp/2011/12/androiddialogfragment.html
+     *
+     * <blockquote>
+     * システムは、Fragmentが最初にUIを描画する時に、onCreateView(LayoutInflater, ViewGroup, Bundle)を呼び出します。
+     * UIを描画するFragmentは、必ずこのメソッドは、Fragmentのレイアウトの一番親にあたるViewオブジェクトを返す必要があります。
+     * nullを返すことで、UIを持たないFragmentを作ることもできます。
+     * </blockquote>
      *
      * <blockquote>
      * The system calls this when it's time for the fragment to draw its user interface for the first time.
@@ -134,6 +177,10 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * {@link Dialog}オブジェクトを作成します。Dialogオブジェクトには、例えばProgressDialogやAlertDialogなどのものがあります。
+     * テーマや、中身のViewを設定するだけの単純なレイアウトであれば、このメソッドは使わずに
+     * {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}を使います。
+     *
      * Create a {@link Dialog} object such as progress indicator, or alert dialog and so on.
      * If you would like to create a simple layout(just set theme and content view),
      * use {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)} instead.
@@ -144,14 +191,20 @@ public class MainDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.v(TAG, "onCreateDialog");
-        // TODO implement me!
+        // TODO Create {@link AlertDialog} object and return it.
         return null;
     }
 
     /**
      * <blockquote>
+     * Fragmentが紐付いているActivityの{@link Activity#onCreate(Bundle)}の処理が終わると、
+     * onActivityCreated(Bundle)が呼ばれます。(ActivityのContextを得るのはこれ以後のライフサイクルメソッドが良いです。)
+     * </blockquote>
+     *
+     * <blockquote>
      * onActivityCreated(Bundle) tells the fragment that
-     * its activity has completed its own {@link Activity#onCreate()}.
+     * its activity has completed its own {@link Activity#onCreate(Bundle)}.
+     * Prefer to obtain activity context after this method is called.
      * </blockquote>
      *
      * @param savedInstanceState saved fragment state before the fragment destroyed.
@@ -163,6 +216,10 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * <blockquote>
+     * onStart()以後、Fragmentはユーザに見える状態にになります。
+     * </blockquote>
+     *
      * <blockquote>
      * onStart() makes the fragment visible to the user
      * (based on its containing activity being started).
@@ -176,6 +233,10 @@ public class MainDialogFragment extends DialogFragment {
 
     /**
      * <blockquote>
+     * onResume()以後、Fragmentはユーザの操作を受け付けることができるようになります。
+     * </blockquote>
+     *
+     * <blockquote>
      * onResume() makes the fragment interacting with the user
      * (based on its containing activity being resumed).
      * </blockquote>
@@ -187,6 +248,17 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * メモリ不足や画面回転などの理由でFragmentが破棄されても復帰可能とするために
+     * Fragmentの状態を一時保存する目的でonSaveInstanceState(Bundle)が呼ばれます。
+     * 保存したい状態は、引数の{@link Bundle}オブジェクトに保存します。
+     * このBundleオブジェクトは、Bundleオブジェクトを受け付ける様々なライフサイクルメソッドで受け取ることができます。
+     * 例えば、{@link Fragment#onCreate(Bundle)}や、
+     * {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}、
+     * {@link DialogFragment#onCreateDialog(Bundle)}、
+     * {@link Fragment#onActivityCreated(Bundle)}が該当します。
+     *
+     * これらのメソッドで受け取るBundleオブジェクトには、以前onSaveInstanceState(Bundle)で保存した状態が格納されています。
+     *
      * To save temporary states of this fragment,
      * put them into a {@link Bundle} object.
      * It can be restored in methods such as {@link Fragment#onCreate(Bundle)},
@@ -204,6 +276,15 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * <blockquote>
+     * ユーザが画面遷移などでFragmentから去ることを最初に通知するものとして、システムはonPause()を呼び出します。
+     * ただしこれは、即ちFragmentが破棄されつつあることを意味するものではありません。
+     * ここでは、ActivityのContextなどを超える、永続化すべきデータを保存しておきます(ユーザが戻ってこないこともあるため)。
+     *
+     * onPause()が呼ばれたら、Fragmentはユーザの操作を受け付けなくなります。これは、Activity#onPause()が呼ばれた後に
+     * Fragment#onPasuse()が呼ばれるため、Activityもまた操作を受け付けなくなるからです。
+     * </blockquote>
+     *
      * <blockquote>
      * The system calls this method as the first indication that the user is leaving the fragment
      * (though it does not always mean the fragment is being destroyed).
@@ -223,6 +304,11 @@ public class MainDialogFragment extends DialogFragment {
 
     /**
      * <blockquote>
+     * onStop()実行後は、Fragmentがユーザから見えなくなります。
+     * これはFragmentが紐付くActivityも、onStop()が実行されユーザから見えなくなるためです。
+     * </blockquote>
+     *
+     * <blockquote>
      * onStop() fragment is no longer visible to the user
      * either because its activity is being stopped
      * or a fragment operation is modifying it in the activity.
@@ -236,6 +322,10 @@ public class MainDialogFragment extends DialogFragment {
 
     /**
      * <blockquote>
+     * onDestroyView()が呼ばれたら、FragmentはViewに紐付くリソースの開放を行います。
+     * </blockquote>
+     *
+     * <blockquote>
      * onDestroyView() allows the fragment to clean up resources associated with its View.
      * </blockquote>
      */
@@ -246,6 +336,13 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     /**
+     * onDestroy()が呼ばれるのは、Fragmentがもはや使われなくなる時です。
+     * メモリリークを防ぐため、Listenerオブジェクトなどの参照を切る必要があります。
+     *
+     * <blockquote>
+     * onDestroy()は、Fragmentを何時でもメモリから破棄できる状態にするための最後の処理を行う場所です。
+     * </blockquote>
+     *
      * This method will be called when this fragment is no longer used.
      * To avoid memory leak, you should release references such as listener object.
      *
@@ -261,6 +358,10 @@ public class MainDialogFragment extends DialogFragment {
 
     /**
      * <blockquote>
+     * onDetach()は、Activityとの紐付きがなくなったときに呼ばれます。
+     * </blockquote>
+     *
+     * <blockquote>
      * onDetach() called immediately prior to the fragment no longer being associated with its activity.
      * </blockquote>
      */
@@ -271,7 +372,7 @@ public class MainDialogFragment extends DialogFragment {
     }
 
     public static interface DialogCallbacks {
-        public void onPositiveClick();
+        public void onPositiveClick(int position);
         public void onNegativeClick();
     }
 }
