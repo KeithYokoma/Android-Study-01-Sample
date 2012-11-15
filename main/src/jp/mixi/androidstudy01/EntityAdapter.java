@@ -53,12 +53,12 @@ public class EntityAdapter extends ArrayAdapter<ComposeEntity> {
         // TODO リストからpositionにあるオブジェクトを取り出します。
         // TODO Get an object of the specified position of the list.
 
-        // TODO 取り出したオブジェクトをviewに当てはめていきます
-        // TODO Assign a state to the view
-        if (item instanceof DiaryEntity) {
-            DiaryEntity diary = (DiaryEntity) item;
-            title.setText(diary.getTitle());
-        }
+        // TODO 取り出したオブジェクトをviewに当てはめていきます。コメントアウトしたif文はコメントを外して下さい。
+        // TODO Assign a state to the view.Remove comment statement below.
+        // if (item instanceof DiaryEntity) {
+        //    DiaryEntity diary = (DiaryEntity) item;
+        //    title.setText(diary.getTitle());
+        //}
         return view;
     }
 }
