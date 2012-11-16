@@ -20,8 +20,9 @@ import java.lang.reflect.Field;
  * @author keishin.yokomaku
  */
 public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<DiaryComposeActivity> {
+    @SuppressWarnings("deprecation") // We should test on android-7
     public DiaryComposeActivityTest() {
-        super(DiaryComposeActivity.class);
+        super("jp.mixi.androidstudy01", DiaryComposeActivity.class);
     }
 
     /**

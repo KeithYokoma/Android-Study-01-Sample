@@ -19,8 +19,9 @@ import jp.mixi.androidstudy01.diary.DiaryComposeActivity;
  * @author keishin.yokomaku
  */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+    @SuppressWarnings("deprecation") // We should test on android-7
     public MainActivityTest() {
-        super(MainActivity.class);
+        super("jp.mixi.androidstudy01", MainActivity.class);
     }
 
     public void testAddAndDeleteEntry() throws Exception {
