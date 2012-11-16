@@ -10,6 +10,7 @@ import jp.mixi.androidstudy01.diary.entity.DiaryEntity;
 import jp.mixi.androidstudy01.entity.ComposeEntity;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EntityAdapter extends ArrayAdapter<ComposeEntity> {
     /**
@@ -47,18 +48,17 @@ public class EntityAdapter extends ArrayAdapter<ComposeEntity> {
         // potisionの位置に来るList上のオブジェクトに対応するViewを毎回詰め込み直すような実装となります。
         View view = super.getView(position, convertView, parent);
         TextView title = (TextView) view.findViewById(R.id.MainListTitle);
-        // TODO このviewオブジェクトから、一行分のレイアウトに必要なViewオブジェクトを取り出します。
-        // TODO Obtain views to assign a specified position item state of the row from this view object.
+        TextView body = (TextView) view.findViewById(R.id.MainListBody);
+        TextView date = (TextView) view.findViewById(R.id.MainListPostDate);
 
-        // TODO リストからpositionにあるオブジェクトを取り出します。
-        // TODO Get an object of the specified position of the list.
+        ComposeEntity entity = getItem(position);
 
-        // TODO 取り出したオブジェクトをviewに当てはめていきます。コメントアウトしたif文はコメントを外して下さい。
-        // TODO Assign a state to the view.Remove comment statement below.
-        // if (item instanceof DiaryEntity) {
-        //    DiaryEntity diary = (DiaryEntity) item;
-        //    title.setText(diary.getTitle());
-        //}
+        if (entity instanceof DiaryEntity) {
+            DiaryEntity diary = (DiaryEntity) entity;
+            title.setText(diary.getTitle());
+            body.setText(diary.getBody());
+            date.setText(sFormat.format(new Date(diary.getPostDate())));
+        }
         return view;
     }
 }
