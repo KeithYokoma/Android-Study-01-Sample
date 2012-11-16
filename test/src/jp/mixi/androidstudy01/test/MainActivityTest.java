@@ -64,6 +64,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Save the diary, and returning it to main activity
         soloCompose.clickOnButton(compose.getString(R.string.activity_compose_diary_save));
+        soloMain.sleep(1000);
         assertTrue(compose.isFinishing());
 
         // Find body text to prove the entity is actually added to the list.
