@@ -134,6 +134,8 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
         });
         getInstrumentation().waitForIdleSync();
 
+        // Wait for 1sec
+        Thread.sleep(1000);
         // Activity has been finished.
         assertTrue(activity.isFinishing());
 
@@ -176,6 +178,8 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
         });
         getInstrumentation().waitForIdleSync();
 
+        // Wait for 1sec
+        Thread.sleep(1000);
         assertTrue(activity.isFinishing());
 
         try {
@@ -235,6 +239,8 @@ public class DiaryComposeActivityTest extends ActivityInstrumentationTestCase2<D
         });
         getInstrumentation().waitForIdleSync();
 
+        // Wait for 1sec
+        Thread.sleep(1000);
         // Activity has been finished.
         assertTrue(activity.isFinishing());
 
